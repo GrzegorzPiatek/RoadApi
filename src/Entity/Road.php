@@ -23,7 +23,7 @@ class Road
     #[ORM\Column(type: 'string', length: 1000, nullable: true)]
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'roadId', targetEntity: Duration::class)]
+    #[ORM\OneToMany(mappedBy: 'road', targetEntity: Duration::class, orphanRemoval: true)]
     private $durations;
 
     public function __construct()
@@ -72,7 +72,7 @@ class Road
     {
         if (!$this->durations->contains($duration)) {
             $this->durations[] = $duration;
-            $duration->setRoadId($this);
+            $duration->setRoad($this);
         }
 
         return $this;
@@ -82,11 +82,12 @@ class Road
     {
         if ($this->durations->removeElement($duration)) {
             // set the owning side to null (unless already changed)
-            if ($duration->getRoadId() === $this) {
-                $duration->setRoadId(null);
+            if ($duration->getRoad() === $this) {
+                $duration->setRoad(null);
             }
         }
 
         return $this;
     }
+
 }

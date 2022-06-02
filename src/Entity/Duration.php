@@ -15,31 +15,19 @@ class Duration
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $timer;
-
     #[ORM\Column(type: 'datetime_immutable')]
     private $created_at;
 
-    #[ORM\ManyToOne(targetEntity: road::class, inversedBy: 'durations')]
+    #[ORM\Column(type: 'integer')]
+    private $timer;
+
+    #[ORM\ManyToOne(targetEntity: Road::class, inversedBy: 'durations')]
     #[ORM\JoinColumn(nullable: false)]
-    private $roadId;
+    private $road;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTimer(): ?int
-    {
-        return $this->timer;
-    }
-
-    public function setTimer(int $timer): self
-    {
-        $this->timer = $timer;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -54,14 +42,26 @@ class Duration
         return $this;
     }
 
-    public function getRoadId(): ?road
+    public function getTimer(): ?int
     {
-        return $this->roadId;
+        return $this->timer;
     }
 
-    public function setRoadId(?road $roadId): self
+    public function setTimer(int $timer): self
     {
-        $this->roadId = $roadId;
+        $this->timer = $timer;
+
+        return $this;
+    }
+
+    public function getRoad(): ?Road
+    {
+        return $this->road;
+    }
+
+    public function setRoad(?Road $road): self
+    {
+        $this->road = $road;
 
         return $this;
     }
